@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import PropTypes from 'prop-types'
 
 export default function Textarea(probs) {
 
@@ -18,15 +19,24 @@ export default function Textarea(probs) {
         // console.log("onchange")
         setText(event.target.value)
     }
+    const copyText=()=>{
+      let text = document.getElementById('text')
+      text.select()
+      text.setSelectionRange(0,9999)
+      navigator.clipboard.writeText(text.value);
+
+    }
   const [text, setText] = useState('');
     return (
             <>
+            <div style= {{color: probs.mode === 'dark'?'white':'black'}}>
             <div >
             <h1>{probs.heading}</h1>
-                <textarea className="form-control" value={text} onChange={textAreaChange} id="text" rows="8"></textarea>
+                <textarea className="form-control" value={text} onChange={textAreaChange} style= {{backgroundColor: probs.mode === 'light'?'white':'#c2c2c2'}} id="text" rows="8"></textarea>
                 <button className="btn btn-primary my-3" onClick={setUpCase} >Convert to UpperCase</button>
                 <button className="btn btn-primary my-3 mx-2" onClick={setLowCase} >Convert to LowerCase</button>
                 <button className="btn btn-primary my-3 mx-2" onClick={clearTextArea} >Clear Text</button>
+                <button className="btn btn-primary my-3 mx-2" onClick={copyText} >Cpoy to Clip Board</button>
 
             </div>
             <div className="container my-3">
@@ -36,6 +46,17 @@ export default function Textarea(probs) {
               <h2>Preview</h2>
               <p>{text}</p>
             </div>
+            </div>
             </>
     )
+}
+
+
+Textarea.propTypes = {
+    heading: PropTypes.string.isRequired
+
+}
+Textarea.defaultProbs = {
+    heading: "title prob set here"
+
 }
